@@ -1,0 +1,514 @@
+
+0: shift/reduce conflict (shift 8(0), red'n 31(0)) on CREATE
+state 0
+	$accept: .main $end 
+	comment_list: .    (31)
+
+	CREATE  shift 8
+	.  reduce 31 (src line 169)
+
+	command  goto 3
+	command_list  goto 2
+	create_database_stmt  goto 4
+	create_server_stmt  goto 6
+	create_data_wrapper  goto 7
+	comment_list  goto 5
+	main  goto 1
+
+state 1
+	$accept:  main.$end 
+
+	$end  accept
+	.  error
+
+
+ 2: reduce/reduce conflict  (red'ns 1 and 4) on $end
+2: shift/reduce conflict (shift 10(0), red'n 4(0)) on ';'
+state 2
+	main:  command_list.    (1)
+	command_list:  command_list.semicolon_opt command 
+	semicolon_opt: .    (4)
+
+	$end  reduce 1 (src line 42)
+	';'  shift 10
+	.  reduce 4 (src line 55)
+
+	semicolon_opt  goto 9
+
+3: shift/reduce conflict (shift 10(0), red'n 4(0)) on ';'
+state 3
+	command_list:  command.semicolon_opt 
+	semicolon_opt: .    (4)
+
+	';'  shift 10
+	.  reduce 4 (src line 55)
+
+	semicolon_opt  goto 11
+
+state 4
+	command:  create_database_stmt.    (6)
+
+	.  reduce 6 (src line 58)
+
+
+5: shift/reduce conflict (shift 12(0), red'n 7(0)) on COMMENT
+state 5
+	command:  comment_list.    (7)
+	comment_list:  comment_list.COMMENT 
+
+	COMMENT  shift 12
+	.  reduce 7 (src line 60)
+
+
+state 6
+	command:  create_server_stmt.    (8)
+
+	.  reduce 8 (src line 65)
+
+
+state 7
+	command:  create_data_wrapper.    (9)
+
+	.  reduce 9 (src line 67)
+
+
+state 8
+	create_database_stmt:  CREATE.DATABASE ident version_tag options_tag 
+	create_data_wrapper:  CREATE.FOREIGN DATA WRAPPER ident type_tag options_tag 
+	create_data_wrapper:  CREATE.FOREIGN TRANSLATOR ident type_tag options_tag 
+	create_server_stmt:  CREATE.SERVER ident type_tag FOREIGN DATA WRAPPER ident options_tag 
+	create_server_stmt:  CREATE.SERVER ident type_tag FOREIGN TRANSLATOR ident options_tag 
+
+	DATABASE  shift 13
+	SERVER  shift 15
+	FOREIGN  shift 14
+	.  error
+
+
+9: shift/reduce conflict (shift 8(0), red'n 31(0)) on CREATE
+state 9
+	command_list:  command_list semicolon_opt.command 
+	comment_list: .    (31)
+
+	CREATE  shift 8
+	.  reduce 31 (src line 169)
+
+	command  goto 16
+	create_database_stmt  goto 4
+	create_server_stmt  goto 6
+	create_data_wrapper  goto 7
+	comment_list  goto 5
+
+state 10
+	semicolon_opt:  ';'.    (5)
+
+	.  reduce 5 (src line 56)
+
+
+state 11
+	command_list:  command semicolon_opt.    (2)
+
+	.  reduce 2 (src line 44)
+
+
+state 12
+	comment_list:  comment_list COMMENT.    (32)
+
+	.  reduce 32 (src line 173)
+
+
+state 13
+	create_database_stmt:  CREATE DATABASE.ident version_tag options_tag 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 17
+
+state 14
+	create_data_wrapper:  CREATE FOREIGN.DATA WRAPPER ident type_tag options_tag 
+	create_data_wrapper:  CREATE FOREIGN.TRANSLATOR ident type_tag options_tag 
+
+	DATA  shift 21
+	TRANSLATOR  shift 22
+	.  error
+
+
+state 15
+	create_server_stmt:  CREATE SERVER.ident type_tag FOREIGN DATA WRAPPER ident options_tag 
+	create_server_stmt:  CREATE SERVER.ident type_tag FOREIGN TRANSLATOR ident options_tag 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 23
+
+state 16
+	command_list:  command_list semicolon_opt command.    (3)
+
+	.  reduce 3 (src line 48)
+
+
+state 17
+	create_database_stmt:  CREATE DATABASE ident.version_tag options_tag 
+	version_tag: .    (11)
+
+	VERSION  shift 25
+	.  reduce 11 (src line 75)
+
+	version_tag  goto 24
+
+state 18
+	ident:  STRING.    (25)
+
+	.  reduce 25 (src line 143)
+
+
+state 19
+	ident:  '\"'.STRING '\"' 
+
+	STRING  shift 26
+	.  error
+
+
+state 20
+	ident:  '\''.STRING '\'' 
+
+	STRING  shift 27
+	.  error
+
+
+state 21
+	create_data_wrapper:  CREATE FOREIGN DATA.WRAPPER ident type_tag options_tag 
+
+	WRAPPER  shift 28
+	.  error
+
+
+state 22
+	create_data_wrapper:  CREATE FOREIGN TRANSLATOR.ident type_tag options_tag 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 29
+
+state 23
+	create_server_stmt:  CREATE SERVER ident.type_tag FOREIGN DATA WRAPPER ident options_tag 
+	create_server_stmt:  CREATE SERVER ident.type_tag FOREIGN TRANSLATOR ident options_tag 
+	type_tag: .    (17)
+
+	TYPE  shift 31
+	.  reduce 17 (src line 104)
+
+	type_tag  goto 30
+
+state 24
+	create_database_stmt:  CREATE DATABASE ident version_tag.options_tag 
+	options_tag: .    (19)
+
+	OPTIONS  shift 33
+	.  reduce 19 (src line 113)
+
+	options_tag  goto 32
+
+state 25
+	version_tag:  VERSION.ident 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 34
+
+state 26
+	ident:  '\"' STRING.'\"' 
+
+	'"'  shift 35
+	.  error
+
+
+state 27
+	ident:  '\'' STRING.'\'' 
+
+	'\''  shift 36
+	.  error
+
+
+state 28
+	create_data_wrapper:  CREATE FOREIGN DATA WRAPPER.ident type_tag options_tag 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 37
+
+state 29
+	create_data_wrapper:  CREATE FOREIGN TRANSLATOR ident.type_tag options_tag 
+	type_tag: .    (17)
+
+	TYPE  shift 31
+	.  reduce 17 (src line 104)
+
+	type_tag  goto 38
+
+state 30
+	create_server_stmt:  CREATE SERVER ident type_tag.FOREIGN DATA WRAPPER ident options_tag 
+	create_server_stmt:  CREATE SERVER ident type_tag.FOREIGN TRANSLATOR ident options_tag 
+
+	FOREIGN  shift 39
+	.  error
+
+
+state 31
+	type_tag:  TYPE.ident 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 40
+
+state 32
+	create_database_stmt:  CREATE DATABASE ident version_tag options_tag.    (10)
+
+	.  reduce 10 (src line 70)
+
+
+state 33
+	options_tag:  OPTIONS.'(' options_list ')' 
+
+	'('  shift 41
+	.  error
+
+
+state 34
+	version_tag:  VERSION ident.    (12)
+
+	.  reduce 12 (src line 79)
+
+
+state 35
+	ident:  '\"' STRING '\"'.    (26)
+
+	.  reduce 26 (src line 147)
+
+
+state 36
+	ident:  '\'' STRING '\''.    (27)
+
+	.  reduce 27 (src line 151)
+
+
+state 37
+	create_data_wrapper:  CREATE FOREIGN DATA WRAPPER ident.type_tag options_tag 
+	type_tag: .    (17)
+
+	TYPE  shift 31
+	.  reduce 17 (src line 104)
+
+	type_tag  goto 42
+
+state 38
+	create_data_wrapper:  CREATE FOREIGN TRANSLATOR ident type_tag.options_tag 
+	options_tag: .    (19)
+
+	OPTIONS  shift 33
+	.  reduce 19 (src line 113)
+
+	options_tag  goto 43
+
+state 39
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN.DATA WRAPPER ident options_tag 
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN.TRANSLATOR ident options_tag 
+
+	DATA  shift 44
+	TRANSLATOR  shift 45
+	.  error
+
+
+state 40
+	type_tag:  TYPE ident.    (18)
+
+	.  reduce 18 (src line 108)
+
+
+state 41
+	options_tag:  OPTIONS '('.options_list ')' 
+	options_list: .    (21)
+
+	STRING  shift 48
+	.  reduce 21 (src line 122)
+
+	options_list  goto 46
+	single_option  goto 47
+
+state 42
+	create_data_wrapper:  CREATE FOREIGN DATA WRAPPER ident type_tag.options_tag 
+	options_tag: .    (19)
+
+	OPTIONS  shift 33
+	.  reduce 19 (src line 113)
+
+	options_tag  goto 49
+
+state 43
+	create_data_wrapper:  CREATE FOREIGN TRANSLATOR ident type_tag options_tag.    (14)
+
+	.  reduce 14 (src line 88)
+
+
+state 44
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN DATA.WRAPPER ident options_tag 
+
+	WRAPPER  shift 50
+	.  error
+
+
+state 45
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN TRANSLATOR.ident options_tag 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 51
+
+state 46
+	options_tag:  OPTIONS '(' options_list.')' 
+	options_list:  options_list.',' single_option 
+
+	')'  shift 52
+	','  shift 53
+	.  error
+
+
+state 47
+	options_list:  single_option.    (22)
+
+	.  reduce 22 (src line 126)
+
+
+state 48
+	single_option:  STRING.value_tag 
+
+	NUMBER  shift 56
+	LITERAL  shift 57
+	STRING  shift 55
+	.  error
+
+	value_tag  goto 54
+
+state 49
+	create_data_wrapper:  CREATE FOREIGN DATA WRAPPER ident type_tag options_tag.    (13)
+
+	.  reduce 13 (src line 84)
+
+
+state 50
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN DATA WRAPPER.ident options_tag 
+
+	STRING  shift 18
+	'"'  shift 19
+	'\''  shift 20
+	.  error
+
+	ident  goto 58
+
+state 51
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN TRANSLATOR ident.options_tag 
+	options_tag: .    (19)
+
+	OPTIONS  shift 33
+	.  reduce 19 (src line 113)
+
+	options_tag  goto 59
+
+state 52
+	options_tag:  OPTIONS '(' options_list ')'.    (20)
+
+	.  reduce 20 (src line 117)
+
+
+state 53
+	options_list:  options_list ','.single_option 
+
+	STRING  shift 48
+	.  error
+
+	single_option  goto 60
+
+state 54
+	single_option:  STRING value_tag.    (24)
+
+	.  reduce 24 (src line 138)
+
+
+state 55
+	value_tag:  STRING.    (28)
+
+	.  reduce 28 (src line 156)
+
+
+state 56
+	value_tag:  NUMBER.    (29)
+
+	.  reduce 29 (src line 160)
+
+
+state 57
+	value_tag:  LITERAL.    (30)
+
+	.  reduce 30 (src line 164)
+
+
+state 58
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN DATA WRAPPER ident.options_tag 
+	options_tag: .    (19)
+
+	OPTIONS  shift 33
+	.  reduce 19 (src line 113)
+
+	options_tag  goto 61
+
+state 59
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN TRANSLATOR ident options_tag.    (16)
+
+	.  reduce 16 (src line 98)
+
+
+state 60
+	options_list:  options_list ',' single_option.    (23)
+
+	.  reduce 23 (src line 132)
+
+
+state 61
+	create_server_stmt:  CREATE SERVER ident type_tag FOREIGN DATA WRAPPER ident options_tag.    (15)
+
+	.  reduce 15 (src line 94)
+
+
+24 terminals, 16 nonterminals
+33 grammar rules, 62/8000 states
+5 shift/reduce, 1 reduce/reduce conflicts reported
+65 working sets used
+memory: parser 34/120000
+0 extra closures
+60 shift entries, 2 exceptions
+31 goto entries
+4 entries saved by goto default
+Optimizer space used: output 61/120000
+61 table entries, 0 zero
+maximum spread: 24, maximum offset: 58
