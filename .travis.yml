@@ -4,12 +4,12 @@ go:
   - 1.13.x
 env:
   - GO111MODULE=on
-  
+
 dist: bionic
-  
+
 git:
   depth: 1
-  
+
 before_install:
   - . /etc/os-release
   - sudo sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${ID^}_${VERSION_ID}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"
@@ -23,18 +23,17 @@ install:
 - make install
 
 script:
-- make update-connections
-- make build  
+- make ci
 
 deploy:
   provider: script
   script: "buildah login -u $QUAY_USERNAME -p $QUAY_PASSWORD quay.io && make quay-push"
-  on: 
+  on:
     tags: false
     branch: master
     repo: teiid/teiid-operator
     condition: -n "$QUAY_USERNAME"
-    
+
 cache:
   directories:
     - $GOPATH/pkg/mod
