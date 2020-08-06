@@ -23,6 +23,7 @@ before_install:
   - sudo apt-get -qq -y install yamllint
 
 install:
+- cd github.com/teiid/teiid-operator
 - make install
 
 script:
