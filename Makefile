@@ -21,11 +21,11 @@ vet: sdk-generate
 
 .PHONY: fmt
 fmt:
-	@${GO_FLAGS} gofmt -s -l -w cmd/ pkg/ 
+	@${GO_FLAGS} gofmt -s -l -w cmd/ pkg/
 
 .PHONY: test
 test: vet fmt
-	GOCACHE=on 
+	GOCACHE=on
 	@${GO_FLAGS} go test ./...
 
 .PHONY: sdk-generate
@@ -49,7 +49,7 @@ lint:
 
 images-push:
 	buildah push $(IMAGE_NAME)
-	
+
 .PHONY: quay-push
 quay-push:
 	buildah push $(IMAGE_NAME) $(QUAY_REPOSITORY):$(TAG)
@@ -96,8 +96,8 @@ format:
 
 .PHONY: ensure-generate-is-noop
 ensure-generate-is-noop: generate format
-	@git diff -s --exit-code pkg/apis/teiid/v1alpha1/zz_generated.*.go || (echo "Build failed: a model has been changed but the generated resources aren't up to date. Run 'make generate' and update your PR." && exit 1)
-	@git diff -s --exit-code build/conf/connection_factories.json || (echo "Connection factories is not uptodate. Run 'make generate' and update your PR." && exit 1)
+	@git diff --exit-code pkg/apis/teiid/v1alpha1/zz_generated.*.go || (echo "Build failed: a model has been changed but the generated resources aren't up to date. Run 'make generate' and update your PR." && exit 1)
+	@git diff --exit-code build/conf/connection_factories.json || (echo "Connection factories is not uptodate. Run 'make generate' and update your PR." && exit 1)
 
 .PHONY: check
 check:
